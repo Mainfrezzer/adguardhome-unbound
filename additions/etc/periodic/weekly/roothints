@@ -1,0 +1,3 @@
+#!/bin/sh
+curl -L -s -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+service unbound reload
