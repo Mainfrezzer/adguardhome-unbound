@@ -11,7 +11,7 @@ This repository contains the Docker files that combine **AdGuard Home** and **Un
 ### Unraid
 The template can be downloaded here
 <pre>
-  https://github.com/Mainfrezzer/UnRaid-Templates/blob/main/my-AdGuard-Home-Unbound.xml
+  https://github.com/Mainfrezzer/UnRaid-Templates/blob/main/AdGuard-Home-Unbound.xml
 </pre>
 
 ### Docker run
