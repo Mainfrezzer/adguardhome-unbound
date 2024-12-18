@@ -5,6 +5,13 @@ echo "Custom config not found. Copied a config"
 fi
 
 sh -c crond
+
+if ! ping -c 1 www.internic.net &> /dev/null
+then
+  echo "DNS Resolution Error. Start the container with --dns=1.1.1.1 or 8.8.8.8"
+  exit
+fi
+
 if [ ! -f /etc/unbound/root.hints/ ]; then
 curl -L -s -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 fi
