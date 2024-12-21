@@ -16,7 +16,7 @@ fi
 
 sh -c crond
 
-if ! ping -c 1 www.internic.net &> /dev/null
+if ! ping -4 -c 1 www.internic.net &> /dev/null
 then
   echo "DNS Resolution Error. Start the container with --dns=1.1.1.1 or 8.8.8.8"
   exit
