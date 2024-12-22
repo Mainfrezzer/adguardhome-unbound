@@ -16,14 +16,14 @@ fi
 
 sh -c crond
 
-if ! ping -4 -c 1 www.internic.net &> /dev/null
-then
-  echo "DNS Resolution Error. Start the container with --dns=1.1.1.1 or 8.8.8.8"
-  exit
+if [ ! -f /etc/unbound/root.hints/ ]; then
+curl -L -s -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 fi
 
 if [ ! -f /etc/unbound/root.hints/ ]; then
-curl -L -s -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+echo "Unable to download root hints from https://www.internic.net/domain/named.cache"
+echo "Using fallback root.hints"
+cp /etc/unbound/root.fallback /etc/unbound/root.hints
 fi
 
 sh -c "rc-service unbound restart" > /dev/null 2>&1

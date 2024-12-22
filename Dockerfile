@@ -45,7 +45,7 @@ RUN mkdir -m 755 $ADGUARDHOME_DIR/conf
 WORKDIR $ADGUARDHOME_DIR/work
 
 COPY /additions /
-
+RUN curl -L -s -o /etc/unbound/root.fallback https://www.internic.net/domain/named.cache
 RUN chmod +x /start.sh
 
 ENTRYPOINT ["/start.sh"]
