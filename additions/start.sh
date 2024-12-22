@@ -16,11 +16,11 @@ fi
 
 sh -c crond
 
-if [ ! -f /etc/unbound/root.hints/ ]; then
+if [ ! -f /etc/unbound/root.hints ]; then
 curl -L -s -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 fi
 
-if [ ! -f /etc/unbound/root.hints/ ]; then
+if [ ! -f /etc/unbound/root.hints ]; then
 echo "Unable to download root hints from https://www.internic.net/domain/named.cache"
 echo "Using fallback root.hints"
 cp /etc/unbound/root.fallback /etc/unbound/root.hints
