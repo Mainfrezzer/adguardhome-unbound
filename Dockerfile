@@ -40,7 +40,7 @@ EXPOSE 53/tcp 53/udp 67/udp 68/udp 80/tcp 443/tcp 443/udp 853/tcp\
 
 
 
-RUN mkdir -m 700 $ADGUARDHOME_DIR/work 
+RUN mkdir -m 700 $ADGUARDHOME_DIR/work && chmod 700 $ADGUARDHOME_DIR/work 
 RUN mkdir -m 755 $ADGUARDHOME_DIR/conf
 
 WORKDIR $ADGUARDHOME_DIR/work

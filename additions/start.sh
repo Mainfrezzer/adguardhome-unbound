@@ -28,4 +28,9 @@ fi
 
 sh -c "rc-service unbound restart" > /dev/null 2>&1
 
+if [ ! -f /opt/adguardhome/conf/AdGuardHome.yaml ] && [ "$PROVIDE_CONFIG" == "yes" ]; then
+	cp /etc/AdGuard/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml
+	echo "AdGuard Home config was provided"
+fi
+
 exec /opt/adguardhome/AdGuardHome --no-check-update -c /opt/adguardhome/conf/AdGuardHome.yaml -w /opt/adguardhome/work
