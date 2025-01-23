@@ -1,5 +1,5 @@
 # Start from the Alpine base image
-FROM  --platform=$BUILDPLATFORM alpine:latest
+FROM  alpine:latest
 ARG TARGETPLATFORM
 VOLUME /sys/fs/cgroup
 ENV ADGUARDHOME_VERSION="v0.107.56"
