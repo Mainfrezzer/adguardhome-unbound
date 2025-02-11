@@ -2,12 +2,13 @@ name: build-push-container
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
 jobs:
   release-image:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     container:
       image: catthehacker/ubuntu:act-latest
