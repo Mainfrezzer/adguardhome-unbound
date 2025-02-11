@@ -8,11 +8,15 @@ on:
 jobs:
   Branch:
     runs-on: ubuntu-latest
+    outputs:
+      branch_name: ${{ steps.set_branch_name.outputs.branch }}
     steps:
       - name: Extract Branch Name
-        run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+        id: set_branch_name
+        run: echo "branch=${GITHUB_REF##*/}" >> $GITHUB_ENV
   release-image:
-    if: ${{ env.BRANCH }} == "main"
+    needs: Branch
+    if: needs.Branch.outputs.branch_name == 'main'
     runs-on: ubuntu-latest
     container:
       image: catthehacker/ubuntu:act-latest
