@@ -2,13 +2,15 @@ name: build-push-container
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
 
 jobs:
   release-image:
+    name: Get Branch Name
+    run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+
+    if: ${{ env.BRANCH }} == "main"
     runs-on: ubuntu-latest
     container:
       image: catthehacker/ubuntu:act-latest
