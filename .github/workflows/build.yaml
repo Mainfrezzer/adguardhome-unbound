@@ -1,10 +1,13 @@
 name: build-push-container
 
 on:
-  push
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   release-image:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     container:
       image: catthehacker/ubuntu:act-latest
@@ -42,13 +45,16 @@ jobs:
           echo REPO=$(echo ${{ github.actor }} | awk '{print tolower($0)}') >> $GITHUB_OUTPUT
           #echo REPO_NAME=$(echo ${GITHUB_REPOSITORY} | awk -F"/" '{print $2}') >> $GITHUB_OUTPUT
           echo REPO_NAME=$(echo ${{ env.DOCKER_PACKAGE }}) >> $GITHUB_OUTPUT
-          echo VERSION=$(grep 'ENV ADGUARDHOME_VERSION=' Dockerfile | sed 's/.*ENV ADGUARDHOME_VERSION=//;s/"//g') >> $GITHUB_OUTPUT             
+          #echo VERSION=$(grep 'ENV ADGUARDHOME_VERSION=' Dockerfile | sed 's/.*ENV ADGUARDHOME_VERSION=//;s/"//g') >> $GITHUB_OUTPUT
+          echo VERSION=$(echo ${GITHUB_REF#refs/tags/}) >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
+          build-args: |
+            ADGUARDHOME_VERSION=${{ steps.meta.outputs.VERSION }}
           platforms: |
             linux/amd64
             linux/arm64
@@ -65,3 +71,5 @@ jobs:
             LABEL org.opencontainers.image.source="https://github.com/Mainfrezzer/adguardhome-unbound"
             LABEL org.opencontainers.image.description="AdGuard Home + Unbound in 1 Container"
           provenance: false
+        env:
+          DOCKER_BUILD_SUMMARY: false
