@@ -34,7 +34,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD1 }}
+          password: ${{ secrets.DOCKER_PASSWORD2 }}
 
       - name: Get Meta
         id: meta
