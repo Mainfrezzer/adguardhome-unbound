@@ -6,10 +6,12 @@ on:
       - 'v*'
 
 jobs:
+  Branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Branch Name
+        run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
   release-image:
-    name: Get Branch Name
-    run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
-
     if: ${{ env.BRANCH }} == "main"
     runs-on: ubuntu-latest
     container:
