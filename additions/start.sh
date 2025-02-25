@@ -29,6 +29,7 @@ fi
 if [ "$DNSSEC_ENABLE" == "1" ]; then
 unbound-anchor -a /etc/unbound/root.key
 chown 100:101 /etc/unbound/root.key
+chown 100:101 /etc/unbound/
 fi
 
 sh -c "rc-service unbound restart" > /dev/null 2>&1
