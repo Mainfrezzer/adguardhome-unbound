@@ -55,3 +55,5 @@ The container downloads roothints on creation and downloads new roothints weekly
 Both unbound.conf and the AdGuardHome.yaml are found in the /opt/adguardhome/conf directory.
 
 Upon first start, it might provide a "default" config if theres no unbound.conf present at the conf directory
+
+To get DNSSEC up and running, provide the environment variable `DNSSEC_ENABLE` with a value of `1`. That will create the root.key at /etc/unbound/
