@@ -26,6 +26,11 @@ echo "Using fallback root.hints"
 cp /etc/unbound/root.fallback /etc/unbound/root.hints
 fi
 
+if [ "$DNSSEC_ENABLE" == "1" ]; then
+unbound-anchor -a /etc/unbound/root.key
+chown 100:101 /etc/unbound/root.key
+fi
+
 sh -c "rc-service unbound restart" > /dev/null 2>&1
 
 if [ ! -f /opt/adguardhome/conf/AdGuardHome.yaml ] && [ "$PROVIDE_CONFIG" == "yes" ]; then
