@@ -57,3 +57,4 @@ Both unbound.conf and the AdGuardHome.yaml are found in the /opt/adguardhome/con
 Upon first start, it might provide a "default" config if theres no unbound.conf present at the conf directory
 
 To get DNSSEC up and running, provide the environment variable `DNSSEC_ENABLE` with a value of `1`. That will create the root.key at /etc/unbound/
+Dont forget to include the root.key in your unbound config file with `auto-trust-anchor-file: "/etc/unbound/root.key"`
