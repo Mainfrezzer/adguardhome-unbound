@@ -73,5 +73,7 @@ jobs:
             org.opencontainers.image.created=${{ steps.meta.outputs.DATE }}
             org.opencontainers.image.version=${{ steps.meta.outputs.VERSION }}
           provenance: false
+          outputs: |
+            type=image,name=target,annotation-index.org.opencontainers.image.description=AdGuard Home + Unbound in 1 Container,annotation-index.org.opencontainers.image.source=https://github.com/${{ github.repository }},annotation-index.org.opencontainers.image.authors=${{ github.actor }}
         env:
           DOCKER_BUILD_SUMMARY: false
