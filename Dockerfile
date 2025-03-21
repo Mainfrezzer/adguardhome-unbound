@@ -2,7 +2,7 @@ FROM alpine:latest
 ARG TARGETPLATFORM
 VOLUME /sys/fs/cgroup
 ARG ADGUARDHOME_VERSION
-#ENV ADGUARDHOME_VERSION="v0.107.57"
+#ENV ADGUARDHOME_VERSION="v0.107.59"
 ENV ADGUARDHOME_DIR="/opt/adguardhome"
 
 RUN apk add --no-cache unbound curl tzdata libcap openrc
