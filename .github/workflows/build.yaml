@@ -46,7 +46,7 @@ jobs:
           echo REPO_NAME=$(echo ${{ env.DOCKER_PACKAGE }}) >> $GITHUB_OUTPUT
           #echo VERSION=$(grep 'ENV ADGUARDHOME_VERSION=' Dockerfile | sed 's/.*ENV ADGUARDHOME_VERSION=//;s/"//g') >> $GITHUB_OUTPUT
           echo VERSION=$(echo ${GITHUB_REF#refs/tags/}) >> $GITHUB_OUTPUT
-
+          echo DATE=$(date) >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -66,9 +66,12 @@ jobs:
             ghcr.io/${{ steps.meta.outputs.REPO }}/${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.VERSION }}
             ghcr.io/${{ steps.meta.outputs.REPO }}/${{ steps.meta.outputs.REPO_NAME }}:${{ env.DOCKER_LATEST }}
           labels: |
-            LABEL org.opencontainers.image.authors="Mainfrezzer"
-            LABEL org.opencontainers.image.source="https://github.com/Mainfrezzer/adguardhome-unbound"
-            LABEL org.opencontainers.image.description="AdGuard Home + Unbound in 1 Container"
+            org.opencontainers.image.authors=${{ github.actor }}
+            org.opencontainers.image.source=https://github.com/${{ github.actor }}/adguardhome-unbound
+            org.opencontainers.image.title=AdGuard Home + Unbound
+            org.opencontainers.image.description=AdGuard Home + Unbound in 1 Container
+            org.opencontainers.image.created=${{ steps.meta.outputs.DATE }}
+            org.opencontainers.image.version=${{ steps.meta.outputs.VERSION }}
           provenance: false
         env:
           DOCKER_BUILD_SUMMARY: false
