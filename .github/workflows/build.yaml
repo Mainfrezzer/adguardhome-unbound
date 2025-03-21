@@ -12,6 +12,8 @@ jobs:
       image: catthehacker/ubuntu:act-latest
     env:
       DOCKER_ORG: ${{ github.actor }}
+      DOCKER_TITEL: AdGuard Home + Unbound
+      DOCKER_DESC: AdGuard Home + Unbound in 1 Container
       DOCKER_PACKAGE: adguardhome
       DOCKER_LATEST: latest
       RUNNER_TOOL_CACHE: /toolcache
@@ -68,12 +70,12 @@ jobs:
           labels: |
             org.opencontainers.image.authors=${{ github.actor }}
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.title=AdGuard Home + Unbound
-            org.opencontainers.image.description=AdGuard Home + Unbound in 1 Container
+            org.opencontainers.image.title=${{ env.DOCKER_TITEL }}
+            org.opencontainers.image.description=${{ env.DOCKER_DESC }}
             org.opencontainers.image.created=${{ steps.meta.outputs.DATE }}
             org.opencontainers.image.version=${{ steps.meta.outputs.VERSION }}
           provenance: false
           outputs: |
-            type=image,name=target,annotation-index.org.opencontainers.image.description=AdGuard Home + Unbound in 1 Container,annotation-index.org.opencontainers.image.source=https://github.com/${{ github.repository }},annotation-index.org.opencontainers.image.authors=${{ github.actor }}
+            type=image,name=target,annotation-index.org.opencontainers.image.authors=${{ github.actor }},annotation-index.org.opencontainers.image.title=${{ env.DOCKER_TITEL }},annotation-index.org.opencontainers.image.description=${{ env.DOCKER_DESC }},annotation-index.org.opencontainers.image.source=https://github.com/${{ github.repository }},annotation-index.org.opencontainers.image.created=${{ steps.meta.outputs.DATE }},annotation-index.org.opencontainers.image.version=${{ steps.meta.outputs.VERSION }},annotation-manifest.org.opencontainers.image.authors=${{ github.actor }},annotation-manifest.org.opencontainers.image.title=${{ env.DOCKER_TITEL }},annotation-manifest.org.opencontainers.image.description=${{ env.DOCKER_DESC }},annotation-manifest.org.opencontainers.image.source=https://github.com/${{ github.repository }},annotation-manifest.org.opencontainers.image.created=${{ steps.meta.outputs.DATE }},annotation-manifest.org.opencontainers.image.version=${{ steps.meta.outputs.VERSION }}
         env:
           DOCKER_BUILD_SUMMARY: false
