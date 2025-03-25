@@ -7,21 +7,22 @@ ENV ADGUARDHOME_DIR="/opt/adguardhome"
 
 RUN apk add --no-cache unbound curl tzdata libcap openrc
 
-RUN if [ "$TARGETPLATFORM" == "linux/amd64" ] ; then mkdir -p $ADGUARDHOME_DIR && \
-    curl -L "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME_VERSION}/AdGuardHome_linux_amd64.tar.gz" \
-    | tar -xz -C $ADGUARDHOME_DIR --strip-components=2 ; fi
-
-RUN if [ "$TARGETPLATFORM" == "linux/arm64" ] ; then mkdir -p $ADGUARDHOME_DIR && \
-    curl -L "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME_VERSION}/AdGuardHome_linux_arm64.tar.gz" \
-    | tar -xz -C $ADGUARDHOME_DIR --strip-components=2 ; fi
-
-RUN if [ "$TARGETPLATFORM" == "linux/arm/v7" ] ; then mkdir -p $ADGUARDHOME_DIR && \
-    curl -L "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME_VERSION}/AdGuardHome_linux_armv7.tar.gz" \
-    | tar -xz -C $ADGUARDHOME_DIR --strip-components=2 ; fi
-
-RUN if [ "$TARGETPLATFORM" == "linux/arm/v6" ] ; then mkdir -p $ADGUARDHOME_DIR && \
-    curl -L "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME_VERSION}/AdGuardHome_linux_armv6.tar.gz" \
-    | tar -xz -C $ADGUARDHOME_DIR --strip-components=2 ; fi
+RUN \
+    case "$TARGETPLATFORM" in \
+        linux/amd64) \
+            FTL="AdGuardHome_linux_amd64.tar.gz" ;; \
+        linux/arm64) \
+            FTL="AdGuardHome_linux_arm64.tar.gz" ;; \
+        linux/arm/v7) \
+            FTL="AdGuardHome_linux_armv7.tar.gz" ;; \
+        linux/arm/v6) \
+            FTL="AdGuardHome_linux_armv6.tar.gz" ;; \
+        *) \
+            echo "$TARGETPLATFORM" && exit 1 ;; \
+    esac && \
+    mkdir -p $ADGUARDHOME_DIR && \
+    curl -L "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME_VERSION}/${FTL}" \
+    | tar -xz -C $ADGUARDHOME_DIR --strip-components=2
 
 RUN chown -R nobody:nobody $ADGUARDHOME_DIR
 RUN setcap 'cap_net_bind_service=+eip' $ADGUARDHOME_DIR/AdGuardHome
