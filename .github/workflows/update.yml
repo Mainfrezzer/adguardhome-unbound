@@ -1,0 +1,45 @@
+name: Update check
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get latest AdGuardHome release tag
+        id: adguard
+        run: |
+          ADGUARD_TAG=$(curl -s https://api.github.com/repos/AdguardTeam/AdGuardHome/releases/latest | jq -r '.tag_name')
+          echo "adguard_tag=$ADGUARD_TAG" >> $GITHUB_OUTPUT
+
+      - name: Get latest container release tag
+        id: container
+        run: |
+          CONTAINER_TAG=$(curl -s https://api.github.com/repos/mainfrezzer/adguardhome-unbound/releases/latest | jq -r '.tag_name')
+          echo "container_tag=$CONTAINER_TAG" >> $GITHUB_OUTPUT
+
+      - name: Check for mismatch
+        run: |
+          if [ "${{ steps.adguard.outputs.adguard_tag }}" != "${{ steps.container.outputs.container_tag }}" ]; then
+            echo "match=false" >> $GITHUB_OUTPUT
+          else
+            echo "match=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Create Release
+        id: create_release
+        if: steps.check-and-release.outputs.match == 'false'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ steps.adguard.outputs.adguard_tag }}
+          release_name: ${{ steps.adguard.outputs.adguard_tag }}
+          draft: false
+          prerelease: false
