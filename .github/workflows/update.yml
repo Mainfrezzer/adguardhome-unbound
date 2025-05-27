@@ -25,6 +25,7 @@ jobs:
           echo "container_tag=$CONTAINER_TAG" >> $GITHUB_OUTPUT
 
       - name: Check for mismatch
+        id: match
         run: |
           if [ "${{ steps.adguard.outputs.adguard_tag }}" != "${{ steps.container.outputs.container_tag }}" ]; then
             echo "match=false" >> $GITHUB_OUTPUT
@@ -34,10 +35,10 @@ jobs:
           
       - name: Create Release
         id: create_release
-        if: steps.check-and-release.outputs.match == 'false'
+        if: steps.match.outputs.match == 'false'
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GIT }}
         with:
           tag_name: ${{ steps.adguard.outputs.adguard_tag }}
           release_name: ${{ steps.adguard.outputs.adguard_tag }}
