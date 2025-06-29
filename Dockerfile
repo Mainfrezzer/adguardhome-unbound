@@ -56,7 +56,7 @@ COPY /additions /
 
 RUN rm -r /etc/unbound/unbound.conf.d/
 
-RUN curl -L -s -o /etc/unbound/root.fallback https://www.internic.net/domain/named.cache
+RUN curl -L -s -o /etc/unbound/root.fallback https://www.internic.net/domain/named.root
 RUN chmod +x /start.sh
 
 ENTRYPOINT ["/start.sh"]
