@@ -1,3 +1,4 @@
+Note: 19th September 2026. I rebuild the container with the updated unbound version for 0.107.79
 # AdGuard Home + Unbound in 1 Container
 
 This repository contains the Docker files that combine **AdGuard Home** and **Unbound** for an efficient and secure DNS solution. 
